@@ -327,11 +327,11 @@
       try {
         if (!appConfig.apiBaseUrl) {
           renderRows(appConfig.demoRows);
-          setStatus("Showing local demo data until a Cloudflare spreadsheet endpoint is configured.");
+          setStatus("Showing demo data (API not configured).");
           return;
         }
 
-        setStatus("Syncing data from the Cloudflare spreadsheet endpoint...");
+        setStatus("Syncing spreadsheet data...");
 
         const response = await fetch(endpoint, {
           headers: {
@@ -340,18 +340,19 @@
         });
 
         if (!response.ok) {
-          throw new Error(`Request to ${endpoint} failed with status ${response.status} ${response.statusText}`);
+          console.error(`Request to ${endpoint} failed with status ${response.status} ${response.statusText}`);
+          throw new Error("Spreadsheet sync failed.");
         }
 
         const payload = await response.json();
         const rows = getRows(payload);
 
         renderRows(rows);
-        setStatus(rows.length ? "Spreadsheet data synced successfully." : "Endpoint connected, but no rows were returned.");
+        setStatus(rows.length ? "Spreadsheet data synced." : "No rows returned from API.");
       } catch (error) {
         console.error(error);
         renderRows(appConfig.demoRows);
-        setStatus("Cloudflare spreadsheet sync failed, so demo content is being shown instead.", "error");
+        setStatus("Sync failed, showing demo data.", "error");
       }
     }
 

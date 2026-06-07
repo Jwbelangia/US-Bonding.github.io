@@ -31,9 +31,40 @@ const fallbackData = {
 
 let prefetchedData = { ...fallbackData };
 
+function parseCsvLine(line) {
+  const values = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (char === ',' && !inQuotes) {
+      values.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  values.push(current.trim());
+  return values;
+}
+
 async function prefetchSheetData() {
   try {
-    const response = await fetch(SHEET_ENDPOINT, { cache: 'force-cache' });
+    const response = await fetch(SHEET_ENDPOINT, { cache: 'default' });
     if (!response.ok) throw new Error('Sheet request failed');
 
     const csv = await response.text();
@@ -42,9 +73,7 @@ async function prefetchSheetData() {
 
     const parsed = {};
     for (let i = 1; i < lines.length; i += 1) {
-      const [key, title, description, point1, point2, point3] = lines[i]
-        .split(',')
-        .map((value) => value.replace(/^"|"$/g, '').trim());
+      const [key, title, description, point1, point2, point3] = parseCsvLine(lines[i]);
 
       if (!key) continue;
       parsed[key] = {
@@ -57,7 +86,8 @@ async function prefetchSheetData() {
     if (Object.keys(parsed).length > 0) {
       prefetchedData = { ...prefetchedData, ...parsed };
     }
-  } catch {
+  } catch (error) {
+    console.warn('Failed to prefetch Google Sheets data; using fallback content.', error);
     prefetchedData = { ...fallbackData };
   }
 }

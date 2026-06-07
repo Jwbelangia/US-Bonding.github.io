@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>U.S. Bonding Mock Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="scene">
+      <section class="phone" aria-label="U.S. Bonding App Mockup">
+        <header class="app-header">
+          <div class="brand-mark">US</div>
+          <div>
+            <h1>U.S. BONDING</h1>
+            <p>Fast, Professional Bail Bonds</p>
+          </div>
+        </header>
+
+        <a class="emergency" href="tel:18002245688">☎ Emergency Bail • Call 1-800-BAILOUT (24/7)</a>
+
+        <section class="service-grid" aria-label="Primary Services">
+          <button class="service-btn" data-service="bond-services" type="button">
+            <span class="service-icon">⚖️</span>
+            <strong>BOND SERVICES</strong>
+            <small>All types: Federal, State & More</small>
+          </button>
+          <button class="service-btn" data-service="gps-monitoring" type="button">
+            <span class="service-icon">📍</span>
+            <strong>GPS MONITORING</strong>
+            <small>Client status, tracking & help</small>
+          </button>
+          <button class="service-btn" data-service="inmate-locator" type="button">
+            <span class="service-icon">🔎</span>
+            <strong>INMATE LOCATOR</strong>
+            <small>Search local NC counties</small>
+          </button>
+          <button class="service-btn" data-service="payments-financing" type="button">
+            <span class="service-icon">💵</span>
+            <strong>PAYMENTS & FINANCING</strong>
+            <small>Simple plans & secure options</small>
+          </button>
+        </section>
+
+        <section class="details-panel" aria-live="polite">
+          <h2 id="detail-title">Select a service</h2>
+          <p id="detail-description">Prefetched Google Sheets data will load here when you tap a tile.</p>
+          <ul id="detail-points"></ul>
+        </section>
+
+        <p class="agent-note">All specialized bonds and 24/7 GPS services available. Connect with local specialists now.</p>
+        <button class="agent-btn" type="button" data-service="agent-nearby">📍 Find an Agent Near You</button>
+
+        <nav class="bottom-nav" aria-label="Bottom Navigation">
+          <button type="button">Home</button>
+          <button type="button">Services</button>
+          <button type="button">About Us</button>
+          <button type="button">Contact</button>
+        </nav>
+      </section>
+    </main>
+
+    <script src="/script.js" defer></script>
+  </body>
+</html>

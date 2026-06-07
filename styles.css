@@ -1,0 +1,181 @@
+:root {
+  --blue-900: #061742;
+  --blue-800: #0f2b68;
+  --red-700: #a30e18;
+  --red-600: #c91b2d;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Roboto Condensed', sans-serif;
+  background: radial-gradient(circle at 20% 30%, #ded8cc, #a9a49a 45%, #7c756d);
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+
+.scene {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.phone {
+  width: min(390px, 100%);
+  background: linear-gradient(180deg, var(--blue-900), var(--blue-800));
+  border: 8px solid #0e1b2f;
+  border-radius: 32px;
+  color: var(--white);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1rem 0.8rem;
+}
+
+.brand-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid #d2d6e1;
+  background: #1f2a44;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.app-header h1 {
+  margin: 0;
+  font: 700 2rem/1 'Oswald', sans-serif;
+  color: #ff4545;
+  letter-spacing: 0.04em;
+}
+
+.app-header p {
+  margin: 0.2rem 0 0;
+  font-size: 1.1rem;
+}
+
+.emergency {
+  display: block;
+  margin: 0 1rem;
+  text-decoration: none;
+  background: linear-gradient(180deg, var(--red-600), var(--red-700));
+  color: #fff;
+  font: 700 1.6rem/1.15 'Oswald', sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 12px;
+  padding: 0.7rem;
+}
+
+.service-grid {
+  padding: 0.95rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.service-btn {
+  border: 2px solid #d9ddeb;
+  border-radius: 14px;
+  background: #fff;
+  color: #0f1525;
+  display: grid;
+  gap: 0.2rem;
+  text-align: center;
+  padding: 0.8rem 0.55rem;
+  cursor: pointer;
+}
+
+.service-btn:hover,
+.service-btn:focus-visible,
+.service-btn.active {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2);
+}
+
+.service-icon { font-size: 2rem; }
+.service-btn strong { font-size: 1.95rem; line-height: 1; }
+.service-btn small { font-size: 1.45rem; line-height: 1.1; }
+
+.details-panel {
+  margin: 0 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(2, 13, 34, 0.45);
+  min-height: 128px;
+}
+
+.details-panel h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.details-panel p {
+  margin: 0.3rem 0 0.4rem;
+  font-size: 1.15rem;
+}
+
+.details-panel ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 1.1rem;
+}
+
+.agent-note {
+  margin: 0.9rem 1rem 0.65rem;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.agent-btn {
+  margin: 0 1rem 0.9rem;
+  width: calc(100% - 2rem);
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--red-600), #92030d);
+  color: #fff;
+  font: 700 1.6rem/1 'Oswald', sans-serif;
+  text-transform: uppercase;
+  padding: 0.7rem;
+  cursor: pointer;
+}
+
+.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: #fff;
+}
+
+.bottom-nav button {
+  border: 0;
+  border-right: 1px solid #e8e8e8;
+  background: transparent;
+  padding: 0.8rem 0.2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.bottom-nav button:last-child { border-right: 0; }
+
+@media (max-width: 460px) {
+  .app-header h1 { font-size: 1.6rem; }
+  .emergency,
+  .service-btn strong,
+  .agent-btn { font-size: 1.25rem; }
+  .service-btn small,
+  .agent-note,
+  .details-panel p,
+  .details-panel ul,
+  .bottom-nav button { font-size: 1rem; }
+}

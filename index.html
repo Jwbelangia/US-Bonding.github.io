@@ -230,7 +230,7 @@
     <section class="panel status" data-state="ready" id="status-panel" aria-live="polite">
       <div>
         <span class="status-label">Data status</span>
-        <p class="status-copy" id="status-copy">Loading the latest spreadsheet rows…</p>
+        <p class="status-copy" id="status-copy">Loading the latest spreadsheet rows...</p>
       </div>
       <span class="status-indicator" aria-hidden="true"></span>
     </section>
@@ -309,6 +309,18 @@
       });
     }
 
+    function getRows(payload) {
+      if (Array.isArray(payload)) {
+        return payload;
+      }
+
+      if (payload && Array.isArray(payload.rows)) {
+        return payload.rows;
+      }
+
+      return [];
+    }
+
     async function loadRows() {
       const endpoint = `${appConfig.apiBaseUrl}${appConfig.spreadsheetPath}`;
 
@@ -319,7 +331,7 @@
           return;
         }
 
-        setStatus("Syncing data from the Cloudflare spreadsheet endpoint…");
+        setStatus("Syncing data from the Cloudflare spreadsheet endpoint...");
 
         const response = await fetch(endpoint, {
           headers: {
@@ -332,7 +344,7 @@
         }
 
         const payload = await response.json();
-        const rows = Array.isArray(payload) ? payload : Array.isArray(payload.rows) ? payload.rows : [];
+        const rows = getRows(payload);
 
         renderRows(rows);
         setStatus(rows.length ? "Spreadsheet data synced successfully." : "Endpoint connected, but no rows were returned.");
@@ -355,7 +367,10 @@
       }
 
       deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
+      const installChoice = await deferredPrompt.userChoice;
+      if (installChoice?.outcome === "accepted") {
+        setStatus("App install started from the browser prompt.");
+      }
       deferredPrompt = null;
       installButton.hidden = true;
     });

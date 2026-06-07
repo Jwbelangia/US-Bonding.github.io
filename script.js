@@ -87,7 +87,7 @@ async function prefetchSheetData() {
       prefetchedData = { ...prefetchedData, ...parsed };
     }
   } catch (error) {
-    console.warn('Failed to prefetch Google Sheets data; using fallback content.', error);
+    console.warn(`Failed to prefetch Google Sheets data from ${SHEET_ENDPOINT}; using fallback content.`, error);
     prefetchedData = { ...fallbackData };
   }
 }

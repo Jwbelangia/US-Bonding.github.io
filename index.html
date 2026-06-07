@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="US Bonding">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>US Bonding</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020617;
+      --surface: rgba(15, 23, 42, 0.88);
+      --surface-border: rgba(148, 163, 184, 0.16);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.18);
+      --danger: #f97316;
+      --app-height: 100dvh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: var(--app-height);
+      background:
+        radial-gradient(circle at top, rgba(34, 197, 94, 0.22), transparent 28%),
+        linear-gradient(180deg, #0f172a 0%, #020617 48%, #000 100%);
+      color: var(--text);
+    }
+
+    main {
+      min-height: inherit;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        1rem
+        max(1.5rem, env(safe-area-inset-bottom))
+        1rem;
+      display: grid;
+      align-content: start;
+      gap: 1rem;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 1.5rem;
+      padding: 1rem;
+      box-shadow: 0 24px 60px rgba(2, 6, 23, 0.35);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      padding-top: 1.35rem;
+    }
+
+    .eyebrow,
+    .status-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      line-height: 1;
+      margin: 0.75rem 0 0.5rem;
+    }
+
+    .hero p,
+    .status-copy,
+    .empty-state {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .hero strong {
+      color: #fff;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .metric {
+      padding: 0.85rem;
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric strong {
+      font-size: 1.15rem;
+    }
+
+    .status {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .status-indicator {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0.25rem var(--accent-soft);
+      margin-top: 0.22rem;
+      flex: 0 0 auto;
+    }
+
+    .status[data-state="error"] .status-indicator {
+      background: var(--danger);
+      box-shadow: 0 0 0 0.25rem rgba(249, 115, 22, 0.18);
+    }
+
+    .sheet-list {
+      display: grid;
+      gap: 0.75rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .sheet-card {
+      padding: 0.95rem;
+      border-radius: 1.1rem;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .sheet-card strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 1rem;
+    }
+
+    .sheet-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.4;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #04110a;
+      font: inherit;
+      font-weight: 700;
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    @media (max-width: 420px) {
+      .overview {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel hero">
+      <span class="eyebrow">US Bonding mobile app shell</span>
+      <h1>One page.<br>App-first layout.</h1>
+      <p>
+        This standalone HTML shell is optimized for a wrapped mobile experience and is ready to
+        <strong>load spreadsheet-backed content through a Cloudflare API</strong>.
+      </p>
+    </section>
+
+    <section class="panel overview" aria-label="Overview">
+      <div class="metric">
+        <span>Display</span>
+        <strong>Standalone</strong>
+      </div>
+      <div class="metric">
+        <span>Viewport</span>
+        <strong>Safe-area aware</strong>
+      </div>
+      <div class="metric">
+        <span>Data source</span>
+        <strong>Google Sheets API</strong>
+      </div>
+    </section>
+
+    <section class="panel status" data-state="ready" id="status-panel" aria-live="polite">
+      <div>
+        <span class="status-label">Data status</span>
+        <p class="status-copy" id="status-copy">Loading the latest spreadsheet rows...</p>
+      </div>
+      <span class="status-indicator" aria-hidden="true"></span>
+    </section>
+
+    <section class="panel">
+      <ul class="sheet-list" id="sheet-list"></ul>
+      <p class="empty-state" id="empty-state" hidden>No spreadsheet rows are available yet.</p>
+    </section>
+
+    <section class="panel">
+      <div class="actions">
+        <button id="refresh-button" type="button">Refresh data</button>
+        <button class="secondary" id="install-button" type="button" hidden>Install app</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const appConfig = {
+      apiBaseUrl: window.APP_API_BASE_URL || "",
+      spreadsheetPath: "/api/sheets",
+      demoRows: [
+        {
+          title: "Bonding requests",
+          description: "Show active bond requests from a Cloudflare endpoint backed by Google Sheets."
+        },
+        {
+          title: "Customer queue",
+          description: "Highlight the next actions users should take inside a mobile-friendly card list."
+        },
+        {
+          title: "Field updates",
+          description: "Surface lightweight status updates without exposing the browser chrome."
+        }
+      ]
+    };
+
+    const statusPanel = document.getElementById("status-panel");
+    const statusCopy = document.getElementById("status-copy");
+    const list = document.getElementById("sheet-list");
+    const emptyState = document.getElementById("empty-state");
+    const installButton = document.getElementById("install-button");
+    let deferredPrompt;
+
+    function updateViewportHeight() {
+      document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
+    }
+
+    function setStatus(message, state = "ready") {
+      statusPanel.dataset.state = state;
+      statusCopy.textContent = message;
+    }
+
+    function renderRows(rows) {
+      list.innerHTML = "";
+
+      if (!rows.length) {
+        emptyState.hidden = false;
+        return;
+      }
+
+      emptyState.hidden = true;
+
+      rows.forEach((row) => {
+        const item = document.createElement("li");
+        item.className = "sheet-card";
+
+        const title = document.createElement("strong");
+        title.textContent = row.title || "Untitled row";
+
+        const description = document.createElement("p");
+        description.textContent = row.description || "No description provided.";
+
+        item.append(title, description);
+        list.appendChild(item);
+      });
+    }
+
+    function getRows(payload) {
+      if (Array.isArray(payload)) {
+        return payload;
+      }
+
+      if (payload && Array.isArray(payload.rows)) {
+        return payload.rows;
+      }
+
+      return [];
+    }
+
+    async function loadRows() {
+      const endpoint = `${appConfig.apiBaseUrl}${appConfig.spreadsheetPath}`;
+
+      try {
+        if (!appConfig.apiBaseUrl) {
+          renderRows(appConfig.demoRows);
+          setStatus("Showing demo data (API not configured).");
+          return;
+        }
+
+        setStatus("Syncing spreadsheet data...");
+
+        const response = await fetch(endpoint, {
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          console.error(`Request to ${endpoint} failed with status ${response.status} ${response.statusText}`);
+          throw new Error(`Spreadsheet sync failed (${response.status}).`);
+        }
+
+        const payload = await response.json();
+        const rows = getRows(payload);
+
+        renderRows(rows);
+        setStatus(rows.length ? "Spreadsheet data synced." : "No rows returned from API.");
+      } catch (error) {
+        console.error(error);
+        renderRows(appConfig.demoRows);
+        setStatus("Sync failed, showing demo data.", "error");
+      }
+    }
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      installButton.hidden = false;
+    });
+
+    installButton.addEventListener("click", async () => {
+      if (!deferredPrompt) {
+        return;
+      }
+
+      deferredPrompt.prompt();
+      const installChoice = await deferredPrompt.userChoice;
+      if (installChoice.outcome === "accepted") {
+        setStatus("App install started from the browser prompt.");
+      }
+      deferredPrompt = null;
+      installButton.hidden = true;
+    });
+
+    document.getElementById("refresh-button").addEventListener("click", loadRows);
+    window.addEventListener("resize", updateViewportHeight);
+
+    updateViewportHeight();
+    loadRows();
+  </script>
+</body>
+</html>

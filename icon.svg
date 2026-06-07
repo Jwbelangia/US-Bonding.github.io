@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title>US Bonding</title>
+  <defs>
+    <linearGradient id="g" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#166534" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="#020617" />
+  <path d="M32 34h34c16.57 0 30 13.43 30 30S82.57 94 66 94H32V34Zm18 18v24h14c6.63 0 12-5.37 12-12s-5.37-12-12-12H50Z" fill="url(#g)" />
+</svg>

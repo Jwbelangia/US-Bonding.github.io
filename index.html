@@ -341,7 +341,7 @@
 
         if (!response.ok) {
           console.error(`Request to ${endpoint} failed with status ${response.status} ${response.statusText}`);
-          throw new Error("Spreadsheet sync failed.");
+          throw new Error(`Spreadsheet sync failed (${response.status}).`);
         }
 
         const payload = await response.json();
@@ -369,7 +369,7 @@
 
       deferredPrompt.prompt();
       const installChoice = await deferredPrompt.userChoice;
-      if (installChoice?.outcome === "accepted") {
+      if (installChoice.outcome === "accepted") {
         setStatus("App install started from the browser prompt.");
       }
       deferredPrompt = null;

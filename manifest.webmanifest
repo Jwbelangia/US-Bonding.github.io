@@ -1,0 +1,17 @@
+{
+  "name": "US Bonding",
+  "short_name": "US Bonding",
+  "description": "Mobile-first one page shell for a wrapped app backed by Cloudflare and Google Sheets.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

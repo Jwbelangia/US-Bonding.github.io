@@ -340,7 +340,7 @@
         });
 
         if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+          throw new Error(`Request to ${endpoint} failed with status ${response.status} ${response.statusText}`);
         }
 
         const payload = await response.json();
